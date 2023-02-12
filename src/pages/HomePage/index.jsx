@@ -1,14 +1,41 @@
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import LogoutBtn from "../../components/LogoutBtn";
 import StyledMain from "./style";
+import api from "../../services/api.js"
+import { useState } from "react";
 
 function HomePage() {
+    const [name, setName] = useState("")
+    const [module, setModule] = useState("")
 
+    const navigate = useNavigate()
 
-    // temporário
+    const token = localStorage.getItem("@KenzieHub-token:")
+    
+    if(!token){
+        navigate("/")
+    }
+    
+    async function getLogedUser(){
+        try {
+            const response = await api.get("profile", {
+                headers: {
+                    Authorization: `bearer ${token}`
+                }
+            });
 
-    const name = "Rafael Leão"
-    const module = "Primeiro módulo (introdução ao Frontend)"
+            setName(response.data.name)
+            setModule(response.data.course_module)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    getLogedUser()
+    
+
     return (
         <>
             <Header>

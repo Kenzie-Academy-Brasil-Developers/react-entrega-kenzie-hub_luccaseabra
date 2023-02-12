@@ -18,7 +18,7 @@ const StyledForm = styled.form`
         outline: none;
         border: 2px solid transparent;
         padding: .8rem .5rem;
-        margin-bottom: 1rem;
+        margin-bottom: .3rem;
         border-radius: var(--radius-default);
 
         text-align: left;
@@ -43,6 +43,13 @@ const StyledForm = styled.form`
         top: .8rem;
         right: .7rem;
         color: var(--color-grey-0);
+    }
+
+    .errorMessage{
+        font-size: .7rem;
+        font-weight: 500;
+        color: var(--color-negative);
+        margin-bottom: .7rem
     }
 `
 
