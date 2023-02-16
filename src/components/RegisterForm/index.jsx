@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import api from "../../services/api.js";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup
   .object({
@@ -32,6 +33,8 @@ const schema = yup
   
   function RegisterForm() {
 
+    const navigate = useNavigate();
+
     const {
       register,
       handleSubmit,
@@ -47,12 +50,14 @@ const schema = yup
       try {
         const request = await api.post("users", data);
 
-        toast.success("Cadastro realizado")
-        reset()
+        toast.success("Cadastro realizado");
+        reset();
+
+        navigate("/")
 
       } catch (error) {
-        console.log(error)
-        toast.error(`${error}`)
+        console.log(error);
+        toast.error(`${error}`);
       }
     }
     register()
