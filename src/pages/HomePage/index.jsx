@@ -9,12 +9,12 @@ function HomePage() {
     const [name, setName] = useState("")
     const [module, setModule] = useState("")
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const token = localStorage.getItem("@KenzieHub-token:")
+    const token = localStorage.getItem("@KenzieHub-token:");
     
     if(!token){
-        navigate("/")
+        navigate("/");
     }
     
     async function getLogedUser(){
@@ -24,16 +24,17 @@ function HomePage() {
                     Authorization: `bearer ${token}`
                 }
             });
-
-            setName(response.data.name)
-            setModule(response.data.course_module)
+            
+            localStorage.setItem("@USERID", response.data.id);
+            setName(response.data.name);
+            setModule(response.data.course_module);
             
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
-    getLogedUser()
+    getLogedUser();
     
 
     return (

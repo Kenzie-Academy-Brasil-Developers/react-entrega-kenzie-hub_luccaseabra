@@ -1,12 +1,12 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import StyledForm from "./style"
-import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup  from "yup"
-import { toast } from "react-toastify"
-import api from "../../services/api.js"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import StyledForm from "./style";
+import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup  from "yup";
+import { toast } from "react-toastify";
+import api from "../../services/api.js";
+import { useNavigate } from "react-router-dom";
 
 
 const schema = yup.object({
@@ -15,9 +15,9 @@ const schema = yup.object({
 })
 
 function LoginForm(){
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const [showPassword, setShowPassword] = useState("false")
+    const [showPassword, setShowPassword] = useState("false");
 
     const { register, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(schema)
@@ -27,18 +27,18 @@ function LoginForm(){
 
         async function login(){
             try {
-                const request = await api.post("/sessions", data)
+                const request = await api.post("/sessions", data);
 
-                localStorage.setItem("@KenzieHub-token:", request.data.token)
+                localStorage.setItem("@KenzieHub-token:", request.data.token);
 
-                navigate("/homepage")
+                navigate("/homepage");
 
             } catch (error) {
-                toast.error("Email ou senha incorretos")
+                toast.error("Email ou senha incorretos");
             }
         }
 
-        login()
+        login();
     }
 
     return (
