@@ -4,7 +4,10 @@ function LogoutBtn() {
 
     const navigate = useNavigate()
     function logout() {
-        navigate("/")
+        navigate("/");
+        localStorage.removeItem("@USERID");
+        localStorage.removeItem("@KenzieHub-token:");
+
     }
 
     return (
