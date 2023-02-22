@@ -1,44 +1,27 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import StyledForm from "./style";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup  from "yup";
-import { toast } from "react-toastify";
-import api from "../../services/api.js";
-import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../providers/UserContext";
 
 
 const schema = yup.object({
     email: yup.string().required("E-mail obrigatório"),
-    password: yup.string().required("Senha obrigatória")
+    password: yup.string().required("Senha obrigatória"),
 })
 
 function LoginForm(){
-    const navigate = useNavigate();
 
-    const [showPassword, setShowPassword] = useState("false");
+    const { login, showPassword, setShowPassword } = useContext(UserContext);
 
     const { register, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(schema)
     })
 
     function submitFuntion(data) {
-
-        async function login(){
-            try {
-                const request = await api.post("/sessions", data);
-
-                localStorage.setItem("@KenzieHub-token:", request.data.token);
-
-                navigate("/homepage");
-
-            } catch (error) {
-                toast.error("Email ou senha incorretos");
-            }
-        }
-
-        login();
+        login(data);
     }
 
     return (

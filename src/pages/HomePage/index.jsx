@@ -1,63 +1,63 @@
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import LogoutBtn from "../../components/LogoutBtn";
 import StyledMain from "./style";
-import api from "../../services/api.js"
-import { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../providers/UserContext";
+import HomeHeader from "../../components/HomeHeader";
+import TecnologieCard from "../../components/TecnologieCard";
+import DefaultGreyBtn from "../../components/DefaultGreyBtn";
+import { BsPlusLg } from "react-icons/bs";
+import RegisterTechModal from "../../components/RegisterTechModal";
+import EditTechModal from "../../components/EditTechModal";
 
-function HomePage() {
-    const [name, setName] = useState("")
-    const [module, setModule] = useState("")
-
-    const navigate = useNavigate();
-
-    const token = localStorage.getItem("@KenzieHub-token:");
-    
-    if(!token){
-        navigate("/");
-    }
-    
-    async function getLogedUser(){
-        try {
-            const response = await api.get("profile", {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            });
-            
-            localStorage.setItem("@USERID", response.data.id);
-            setName(response.data.name);
-            setModule(response.data.course_module);
-            
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    getLogedUser();
+export function HomePage() {
+    const { user, logout, loading, openRegisterTech, setOpenRegisterTech, openEditTech,} = useContext(UserContext);
     
 
     return (
         <>
-            <Header>
-                <LogoutBtn/>
-            </Header>
-            <StyledMain>
-                <div className="mainHeader">
-                    <div className="infoContainer">
-                        <h1>Olá, {name}</h1>
-                        <small>{module}</small>
-                    </div>
-                </div>
+            <HomeHeader>
+                <DefaultGreyBtn btnFunction={logout}>Sair</DefaultGreyBtn>
+            </HomeHeader>
 
-                <div className="onBuildMessage">
-                    <div className="messageContainer">
-                        <h1>Que pena! Estamos em desenvolvimento {":("} </h1>
-                        <small>Nossa aplicação está em desenvolvimento, em breve teremos novidades</small>
+            <StyledMain>
+                {loading ? (
+                    <h1 className="loading">Carregando</h1>
+                ) : (
+                    <>
+                    <div className="mainHeader">
+                        <div className="infoContainer">
+                            <h1>Olá, {user.name}</h1>
+                            <small>{user.course_module}</small>
+                        </div>
                     </div>
-                </div>
+
+                    <section className="tecnologiesContainer">
+                        <div className="tecnologiesHeader">
+                            <h1>Tecnologias</h1>
+                            <DefaultGreyBtn btnFunction={() => setOpenRegisterTech(true)}><BsPlusLg/></DefaultGreyBtn>
+                        </div>
+                        
+                        <ul className="tecnologiesList">
+                            <>
+                            { user.techs?.length > 0 ? (
+                                <>                        
+                                    {user.techs.map(tech => <TecnologieCard key={tech.id} tech={tech}/>)}
+                                </>
+                                ) : (
+                                <h2>Você ainda não cadastrou nenhuma tecnologia</h2>
+                            )}
+                            </>
+                        </ul>                      
+                    </section>
+                    </>
+                
+            
+                )}
 
             </StyledMain>
+            {openRegisterTech ? <RegisterTechModal /> : null  }
+            {openEditTech ? <EditTechModal /> : null  }
+            
         </>
     )
 }

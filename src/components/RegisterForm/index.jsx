@@ -3,13 +3,12 @@ import StyledForm from "./style";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useContext } from "react";
+import { UserContext } from "../../providers/UserContext";
 
-import api from "../../services/api.js";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
-const schema = yup
-  .object({
+const schema = yup.object({
+
     name: yup.string().required("Nome obrigatório"),
     email: yup.string().email("O e-mail deve ser válido").required("Email obrigatório"),
     password: yup
@@ -27,45 +26,28 @@ const schema = yup
     .required("Confirmação de senha obrigatória"),
     contact: yup.string().required("Contato obrigatório"),
     course_module: yup.string().required("Uma das opções devem ser selecionadas"),
-  })
-  .required();
+
+  }).required();
 
   
   function RegisterForm() {
-
-    const navigate = useNavigate();
+    const { registerUser } = useContext(UserContext) 
 
     const {
       register,
       handleSubmit,
-      reset,
       formState: { errors },
     } = useForm({
     resolver: yupResolver(schema),
   });
 
   function submitFunction(data) {
-    async function register() {
-      
-      try {
-        const request = await api.post("users", data);
-
-        toast.success("Cadastro realizado");
-        reset();
-
-        navigate("/")
-
-      } catch (error) {
-        console.log(error);
-        toast.error(`${error}`);
-      }
-    }
-    register()
+    registerUser(data)
   }
 
   return (
     <StyledForm onSubmit={handleSubmit(submitFunction)}>
-      <label htmlFor="">Nome</label>
+      <label htmlFor="name">Nome</label>
       <input
         id="name"
         type="text"

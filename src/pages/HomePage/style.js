@@ -22,7 +22,7 @@ const StyledMain = styled.main`
         gap: .7rem;
 
         width: 100%;
-        max-width: 25rem;
+        max-width: 48rem;
     }
     h1{
         font-size: 1rem;
@@ -34,23 +34,33 @@ const StyledMain = styled.main`
         font-weight: 600;
     }
 
-    .onBuildMessage{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
+    .tecnologiesContainer{
+        max-width: 48rem;
+        margin: 0 auto;
         padding: 1.5rem 1rem ;
     }
-    .messageContainer{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: .7rem;
 
-        width: 100%;
-        max-width: 25rem;
+    .tecnologiesHeader{
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem 0;
     }
 
+    ul.tecnologiesList{
+        padding: 1.5rem;
+        border-radius: .4rem;
+        background-color: var(--color-grey-3);
+
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .loading{
+        width: 100vw;
+        text-align: center;
+        margin-top: 12rem;
+    }
 
     @media(min-width: 768px){
         .infoContainer{

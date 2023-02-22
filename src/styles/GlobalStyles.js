@@ -30,6 +30,8 @@ const GlobalStyles = createGlobalStyle`
         border-radius: var(--radius-default);
         color: #fff;
         transition: .15s;
+
+        cursor: pointer;
     }
 
     .default {
@@ -55,7 +57,7 @@ const GlobalStyles = createGlobalStyle`
         background-color: var(--color-grey-1);
         opacity: .9;
     }
-    .grey{
+    .grey:hover{
         opacity: 1
     }
     .grey:focus{
